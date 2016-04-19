@@ -5,20 +5,31 @@
  */
 package galacticaia;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Guilherme
  */
-public class GalacticaIA {
+public class GalacticaIA extends JFrame{
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+    public GalacticaIA() {
         IniciarCampo iniciarCampo = new IniciarCampo();
         Integer[][] campo = iniciarCampo.getCampo();
+        TelaPrincipal telaPrincipal = new TelaPrincipal(campo);
+        telaPrincipal.setVisible(true);
         
-        System.out.println("");
+    }
+
+    
+    
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GalacticaIA();
+            }
+        });
+        
     }
     
 }
