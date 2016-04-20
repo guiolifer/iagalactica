@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,8 +22,12 @@ public class IniciarCampo {
     protected int linha = 0;
     protected int coluna = 0;
     private Integer campo[][];
+    
 
+    
     public IniciarCampo() {
+        
+        
         try {
             // TODO code application logic here
 
@@ -44,9 +49,9 @@ public class IniciarCampo {
             }
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(GalacticaIA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(GalacticaIA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
