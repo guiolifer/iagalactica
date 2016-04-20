@@ -6,6 +6,7 @@
 package galacticaia;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,13 +26,13 @@ public class IniciarCampo {
     
 
     
-    public IniciarCampo() {
+    public IniciarCampo(File f) {
         
         
         try {
             // TODO code application logic here
 
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\Guilherme\\Documents\\NetBeansProjects\\iagalactica\\GalacticaIA\\campo2.txt"));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
             String lerLinha;
             campo = new Integer[27][33];
             String[] splited;
@@ -55,6 +56,8 @@ public class IniciarCampo {
         }
 
     }
+
+    
 
     public Integer[][] getCampo() {
         return campo;

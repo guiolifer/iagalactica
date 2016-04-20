@@ -9,6 +9,11 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.FPSAnimator;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -21,21 +26,16 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        IniciarCampo iniciarCampo = new IniciarCampo();
+        
         
         
         final GLProfile profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities capabilities = new GLCapabilities(profile);
-        GalacticaEventGLE eventoGLE = new GalacticaEventGLE(iniciarCampo.getCampo());
+        
         
         gLJPanel1.setRequestedGLCapabilities(capabilities);
         painelDesenho.add(gLJPanel1);
         
-        gLJPanel1.addGLEventListener(eventoGLE);
-        
-        
-        final FPSAnimator animator = new FPSAnimator(gLJPanel1, 300, true);
-        animator.start();
     }
 
     /**
@@ -47,22 +47,44 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser1 = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         painelTopo = new javax.swing.JPanel();
+        btArquivo = new javax.swing.JButton();
+        editFile = new javax.swing.JTextField();
         painelDesenho = new javax.swing.JPanel();
         gLJPanel1 = new com.jogamp.opengl.awt.GLJPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        btArquivo.setText("Abrir");
+        btArquivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btArquivoActionPerformed(evt);
+            }
+        });
+
+        editFile.setEditable(false);
+
         javax.swing.GroupLayout painelTopoLayout = new javax.swing.GroupLayout(painelTopo);
         painelTopo.setLayout(painelTopoLayout);
         painelTopoLayout.setHorizontalGroup(
             painelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 746, Short.MAX_VALUE)
+            .addGroup(painelTopoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editFile, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(270, Short.MAX_VALUE))
         );
         painelTopoLayout.setVerticalGroup(
             painelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 49, Short.MAX_VALUE)
+            .addGroup(painelTopoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(painelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btArquivo)
+                    .addComponent(editFile, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout gLJPanel1Layout = new javax.swing.GroupLayout(gLJPanel1);
@@ -73,7 +95,7 @@ public class Principal extends javax.swing.JFrame {
         );
         gLJPanel1Layout.setVerticalGroup(
             gLJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 464, Short.MAX_VALUE)
+            .addGap(0, 652, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout painelDesenhoLayout = new javax.swing.GroupLayout(painelDesenho);
@@ -117,6 +139,24 @@ public class Principal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btArquivoActionPerformed
+        
+        jFileChooser1.showOpenDialog(null);
+        File f = jFileChooser1.getSelectedFile();
+        try {
+            editFile.setText(f.getCanonicalPath());
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        IniciarCampo iniciarCampo = new IniciarCampo(f);
+        GalacticaEventGLE eventoGLE = new GalacticaEventGLE(iniciarCampo.getCampo());
+        gLJPanel1.addGLEventListener(eventoGLE);
+        
+        
+        final FPSAnimator animator = new FPSAnimator(gLJPanel1, 300, true);
+        animator.start();
+    }//GEN-LAST:event_btArquivoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -153,7 +193,10 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btArquivo;
+    private javax.swing.JTextField editFile;
     private com.jogamp.opengl.awt.GLJPanel gLJPanel1;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel painelDesenho;
     private javax.swing.JPanel painelTopo;
