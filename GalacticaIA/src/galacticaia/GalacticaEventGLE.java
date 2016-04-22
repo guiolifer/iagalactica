@@ -6,13 +6,19 @@ import com.jogamp.opengl.GLEventListener;
 
 public class GalacticaEventGLE implements GLEventListener {
 
-    private final Integer[][] campo;
+    private final Coordenada[][] campo;
+    private final Integer[][] caminho;
+    private final Campo iniciarCampo;
     
     
 
-    GalacticaEventGLE(Integer[][] campo) {
-        this.campo = campo;
+    GalacticaEventGLE(Campo iniciarCampo) {
+        this.campo = iniciarCampo.getCampo();
+        this.caminho = iniciarCampo.getCaminho();
+        this.iniciarCampo = iniciarCampo;
     }
+
+    
 
     
 
@@ -39,21 +45,37 @@ public class GalacticaEventGLE implements GLEventListener {
         
         for (int i = 0; i < linha; i++) {
             for (int j = 0; j < coluna; j++) {
-                if(this.campo[i][j]==200){
-                    gl.glColor3f( 0.2f,0.29f,0.29f );
-                }else if(this.campo[i][j]==5){
-                    gl.glColor3f( 0.3f,0.3f,0.3f );
                 
-                }else if(this.campo[i][j]==1){
-                    gl.glColor3f( 1f,1f,1f );
-                }else if(this.campo[i][j]==10){
+                switch (this.campo[i][j].getCusto()) {
+                    case 200:
+                        gl.glColor3f( 0.2f,0.29f,0.29f );
+                        break;
+                    case 5:
+                        gl.glColor3f( 0.3f,0.3f,0.3f );
+                        break;
+                    case 1:
+                        gl.glColor3f( 1f,1f,1f );
+                        break;
+                    case 0:
+                        gl.glColor3f( 0.8f,0.4f,0.1f );
+                        break;
+                    default:
+                        gl.glColor3f( 0.0f,0.0f,0.0f );
+                        break;
+                }
+                
+                if(iniciarCampo.getCoorIni().getLinha() == i && iniciarCampo.getCoorIni().getColuna() == j){
                     gl.glColor3f( 1f,0f,0f );
-                }else if(this.campo[i][j]==100){
+                }
+                
+                if(iniciarCampo.getCoorFim().getLinha() == i && iniciarCampo.getCoorFim().getColuna() == j){
                     gl.glColor3f( 0f,1f,0f );
-                }else if(this.campo[i][j]==50){
-                    gl.glColor3f( 0.8f,0.4f,0.1f );
-                }else{
-                    gl.glColor3f( 0.0f,0.0f,0.0f );
+                }
+                
+                if(caminho[i][j]==1){
+                    gl.glColor3f( 0.8f,0.2f,0.2f );
+                }else if(caminho[i][j]==2){
+                    gl.glColor3f( 0.9f,0.7f,0.2f );
                 }
                 this.desenhaQuadrado(gl, i, j);
             }

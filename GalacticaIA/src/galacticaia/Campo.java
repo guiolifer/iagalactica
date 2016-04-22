@@ -18,39 +18,40 @@ import java.util.logging.Logger;
  *
  * @author Guilherme
  */
-public class IniciarCampo {
+public class Campo {
 
     protected int linha = 0;
     protected int coluna = 0;
-    private Integer campo[][];
+    private Coordenada campo[][];
+    private Integer caminho[][];
     private Coordenada coorIni;
     private Coordenada coorFim;
     private ArrayList<Coordenada> coorBoss;
     
 
     
-    public IniciarCampo(File f) {
-        coorBoss = new ArrayList<Coordenada>();
+    public Campo(File f) {
+        coorBoss = new ArrayList<>();
         
         try {
             // TODO code application logic here
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
             String lerLinha;
-            campo = new Integer[27][33];
+            campo = new Coordenada[27][33];
+            caminho = new Integer[27][33];
             String[] splited;
-
+            
             while ((lerLinha = bufferedReader.readLine()) != null) {
 
                 splited = lerLinha.split("\\|");
                 for (String string : splited) {
                     if (!string.equals("")) {
-                        if(Integer.parseInt(string)==10){
-                            coorIni = new Coordenada(linha, coluna);
-                        }else if (Integer.parseInt(string)==100) {
-                            coorFim = new Coordenada(linha, coluna);
-                        }
-                        campo[linha][coluna++] = Integer.parseInt(string);
+                        
+                        caminho[linha][coluna] = 0;
+                        campo[linha][coluna] = new Coordenada(linha, coluna, Integer.parseInt(string));
+                        coluna++;
+                        
                     }
                 }
                 linha++;
@@ -70,14 +71,14 @@ public class IniciarCampo {
         coorBoss.add(new Coordenada(9, 10));
         coorBoss.add(new Coordenada(4, 9));
         coorBoss.add(new Coordenada(4, 21));
+        coorIni = new Coordenada(22, 28);
+        coorFim = new Coordenada(4, 28);
         
     }
 
     
 
-    public Integer[][] getCampo() {
-        return campo;
-    }
+    
 
     /**
      * @return the coorIni
@@ -119,6 +120,22 @@ public class IniciarCampo {
      */
     public void setCoorBoss(ArrayList<Coordenada> coorBoss) {
         this.coorBoss = coorBoss;
+    }
+
+    public Integer[][] getCaminho() {
+        return caminho;
+    }
+
+    public void setCaminho(Integer[][] caminho) {
+        this.caminho = caminho;
+    }
+
+    public Coordenada[][] getCampo() {
+        return campo;
+    }
+
+    public void setCampo(Coordenada[][] campo) {
+        this.campo = campo;
     }
     
     

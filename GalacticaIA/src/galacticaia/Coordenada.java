@@ -14,14 +14,31 @@ import java.util.Objects;
 public class Coordenada {
     private Integer linha;
     private Integer coluna;
-
+    private int custo;
+    private int custoG = 0;
+    private int custoH = 9999;
+    private Coordenada pai = null;
+    
     public Coordenada(Integer linha, Integer coluna) {
         this.linha = linha;
         this.coluna = coluna;
+        this.custo = custo;
     }
 
-    
-    
+    public Coordenada(Integer linha, Integer coluna, Integer custo) {
+        this.linha = linha;
+        this.coluna = coluna;
+        this.custo = custo;
+    }
+
+    public int getCusto() {
+        return custo;
+    }
+
+    public void setCusto(int custo) {
+        this.custo = custo;
+    }
+ 
     /**
      * @return the linha
      */
@@ -56,6 +73,35 @@ public class Coordenada {
         }
         return false;
         
+    }
+
+    public int getCustoG() {
+        return custoG;
+    }
+
+    public void setCustoG(int custoG) {
+        this.custoG = custoG;
+    }
+
+    public int getCustoH() {
+        return custoH;
+    }
+
+    public void setCustoH(int custoH) {
+        this.custoH = custoH;
+    }
+
+    public Coordenada getPai() {
+        return pai;
+    }
+
+    public void setPai(Coordenada pai) {
+        this.pai = pai;
+    }
+    
+    
+    public int getCustoTotal(){
+        return custoG + custoH;
     }
     
     

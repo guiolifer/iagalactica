@@ -7,17 +7,12 @@ package galacticaia;
 
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.FPSAnimator;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
 
 /**
  *
@@ -25,8 +20,8 @@ import javax.swing.JFileChooser;
  */
 public class Principal extends javax.swing.JFrame {
 
-    private Integer[][] campo;
-    private IniciarCampo iniciarCampo;
+    private Campo iniciarCampo;
+
 
     /**
      * Creates new form Principal
@@ -39,6 +34,16 @@ public class Principal extends javax.swing.JFrame {
 
         gLJPanel1.setRequestedGLCapabilities(capabilities);
         painelDesenho.add(gLJPanel1);
+        
+        
+        
+        iniciarCampo = new Campo(new File("C:\\Users\\Guilherme\\Documents\\NetBeansProjects\\iagalactica\\GalacticaIA\\campo2.txt"));
+        
+        GalacticaEventGLE eventoGLE = new GalacticaEventGLE(iniciarCampo);
+        gLJPanel1.addGLEventListener(eventoGLE);
+
+        final FPSAnimator animator = new FPSAnimator(gLJPanel1, 300, true);
+        animator.start();
 
     }
 
@@ -166,9 +171,9 @@ public class Principal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        iniciarCampo = new IniciarCampo(f);
-        this.campo = iniciarCampo.getCampo();
-        GalacticaEventGLE eventoGLE = new GalacticaEventGLE(iniciarCampo.getCampo());
+        iniciarCampo = new Campo(f);
+        
+        GalacticaEventGLE eventoGLE = new GalacticaEventGLE(iniciarCampo);
         gLJPanel1.addGLEventListener(eventoGLE);
 
         final FPSAnimator animator = new FPSAnimator(gLJPanel1, 300, true);
@@ -177,31 +182,43 @@ public class Principal extends javax.swing.JFrame {
 
     private void btProcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProcessoActionPerformed
         // TODO add your handling code here:
-        int linha = this.campo.length;
-        int coluna = this.campo[0].length;
-        Coordenada position = iniciarCampo.getCoorIni();
+//        int linha = this.campo.length;
+//        int coluna = this.campo[0].length;
+//        Coordenada position = iniciarCampo.getCoorIni();
+//
+//        //ordenar a lista de boss mais proximo do ponto inicial (nao funciona)
+//        /* Collections.sort(iniciarCampo.getCoorBoss(), new Comparator<Coordenada>(){
+//            @Override
+//            public int compare(Coordenada p1, Coordenada p2) {
+//                Integer linha = iniciarCampo.getCoorIni().getLinha() - p1.getLinha();
+//                Integer coluna = iniciarCampo.getCoorIni().getColuna() - p1.getColuna();
+//                Integer distancia1 = Math.abs(linha) + Math.abs(coluna);
+//                
+//                Integer linha2 = iniciarCampo.getCoorIni().getLinha() - p2.getLinha();
+//                Integer coluna2 = iniciarCampo.getCoorIni().getColuna() - p2.getColuna();
+//                Integer distancia2 = Math.abs(linha2) + Math.abs(coluna2);
+//                
+//                return distancia1 < distancia2 ? -1 : 1;
+//            }
+//            
+//        });*/
+//        for (Coordenada boss : iniciarCampo.getCoorBoss()) {
+//            listaAberta.add(position);
+//            
+//            
+//            
+//            position = moverBoss(boss);
+//            Coordenada corrente=position.getPai();
+//            while (corrente!=null) {
+//                iniciarCampo.getCaminho()[corrente.getLinha()][corrente.getColuna()] = 1;
+//                corrente =  corrente.getPai();
+//            }
+//
+//        }
 
-        //ordenar a lista de boss mais proximo do ponto inicial (nao funciona)
-        /* Collections.sort(iniciarCampo.getCoorBoss(), new Comparator<Coordenada>(){
-            @Override
-            public int compare(Coordenada p1, Coordenada p2) {
-                Integer linha = iniciarCampo.getCoorIni().getLinha() - p1.getLinha();
-                Integer coluna = iniciarCampo.getCoorIni().getColuna() - p1.getColuna();
-                Integer distancia1 = Math.abs(linha) + Math.abs(coluna);
-                
-                Integer linha2 = iniciarCampo.getCoorIni().getLinha() - p2.getLinha();
-                Integer coluna2 = iniciarCampo.getCoorIni().getColuna() - p2.getColuna();
-                Integer distancia2 = Math.abs(linha2) + Math.abs(coluna2);
-                
-                return distancia1 < distancia2 ? -1 : 1;
-            }
-            
-        });*/
-        for (Coordenada boss : iniciarCampo.getCoorBoss()) {
-
-            position = moverBoss(position, boss);
-
-        }
+        AEstrelaRunnable flux = new AEstrelaRunnable(iniciarCampo);
+        Thread thread = new Thread(flux);
+        thread.start();
 
 
     }//GEN-LAST:event_btProcessoActionPerformed
@@ -252,58 +269,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel painelTopo;
     // End of variables declaration//GEN-END:variables
 
-    public Integer getDistancia(Coordenada p1, Coordenada p2) {
-        Integer linha = Math.abs(p1.getLinha() - p2.getLinha());
-        Integer coluna = Math.abs(p1.getColuna() - p2.getColuna());
-
-        return linha + coluna;
-    }
-
-    public Coordenada moverBoss(Coordenada position, Coordenada boss) {
-        Coordenada result = null;
-        
-        if(campo[position.getLinha()][position.getColuna()] != 10)
-            campo[position.getLinha()][position.getColuna()] = 10;
-        try {
-            System.out.println("Esperando");
-            Thread.sleep(100);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Coordenada pSuperior = new Coordenada(position.getLinha() - 1, position.getColuna());
-        Coordenada pInferior = new Coordenada(position.getLinha() + 1, position.getColuna());
-        Coordenada pDireita = new Coordenada(position.getLinha(), position.getColuna() + 1);
-        Coordenada pEsquerda = new Coordenada(position.getLinha(), position.getColuna() - 1);
-        
-        if(Coordenada.isCoordenateEqual(boss, pSuperior)){
-            result = pSuperior;
-        }else if (Coordenada.isCoordenateEqual(boss, pInferior)){
-            result = pInferior;
-        }else if (Coordenada.isCoordenateEqual(boss, pDireita)){
-            result = pDireita;
-        }else if (Coordenada.isCoordenateEqual(boss, pEsquerda)){
-            result = pEsquerda;
-        }
-        
-        if(result == null){
-            Integer somaCustoSuperior = this.getDistancia(pSuperior, boss) + campo[pSuperior.getLinha()][pSuperior.getColuna()];
-            Integer somaCustoInferior = this.getDistancia(pInferior, boss) + campo[pInferior.getLinha()][pInferior.getColuna()];
-            Integer somaCustoDireita = this.getDistancia(pDireita, boss) + campo[pDireita.getLinha()][pDireita.getColuna()];
-            Integer somaCustoEsquerda = this.getDistancia(pEsquerda, boss) + campo[pEsquerda.getLinha()][pEsquerda.getColuna()];
-
-            if (somaCustoSuperior < somaCustoInferior && somaCustoSuperior < somaCustoDireita && somaCustoSuperior < somaCustoEsquerda) {
-                moverBoss(pSuperior, boss);
-            } else if (somaCustoInferior < somaCustoDireita && somaCustoInferior < somaCustoEsquerda) {
-                moverBoss(pInferior, boss);
-            } else if (somaCustoDireita < somaCustoEsquerda) {
-                moverBoss(pDireita, boss);
-            } else {
-                moverBoss(pEsquerda, boss);
-            }
-        }
-        
-        return result;
-        
-    }
 
 }
