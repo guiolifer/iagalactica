@@ -11,6 +11,10 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.FPSAnimator;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -20,22 +24,22 @@ import javax.swing.JFileChooser;
  * @author Guilherme
  */
 public class Principal extends javax.swing.JFrame {
-    
+
+    private Integer[][] campo;
+    private IniciarCampo iniciarCampo;
+
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
-        
-        
-        
+
         final GLProfile profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities capabilities = new GLCapabilities(profile);
-        
-        
+
         gLJPanel1.setRequestedGLCapabilities(capabilities);
         painelDesenho.add(gLJPanel1);
-        
+
     }
 
     /**
@@ -52,6 +56,7 @@ public class Principal extends javax.swing.JFrame {
         painelTopo = new javax.swing.JPanel();
         btArquivo = new javax.swing.JButton();
         editFile = new javax.swing.JTextField();
+        btProcesso = new javax.swing.JButton();
         painelDesenho = new javax.swing.JPanel();
         gLJPanel1 = new com.jogamp.opengl.awt.GLJPanel();
 
@@ -66,6 +71,13 @@ public class Principal extends javax.swing.JFrame {
 
         editFile.setEditable(false);
 
+        btProcesso.setText("Processar IA");
+        btProcesso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btProcessoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout painelTopoLayout = new javax.swing.GroupLayout(painelTopo);
         painelTopo.setLayout(painelTopoLayout);
         painelTopoLayout.setHorizontalGroup(
@@ -75,7 +87,11 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(btArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(editFile, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addContainerGap(443, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelTopoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btProcesso)
+                .addGap(46, 46, 46))
         );
         painelTopoLayout.setVerticalGroup(
             painelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,7 +100,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(painelTopoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btArquivo)
                     .addComponent(editFile, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btProcesso)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout gLJPanel1Layout = new javax.swing.GroupLayout(gLJPanel1);
@@ -95,7 +113,7 @@ public class Principal extends javax.swing.JFrame {
         );
         gLJPanel1Layout.setVerticalGroup(
             gLJPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
+            .addGap(0, 686, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout painelDesenhoLayout = new javax.swing.GroupLayout(painelDesenho);
@@ -140,7 +158,7 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btArquivoActionPerformed
-        
+
         jFileChooser1.showOpenDialog(null);
         File f = jFileChooser1.getSelectedFile();
         try {
@@ -148,14 +166,45 @@ public class Principal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        IniciarCampo iniciarCampo = new IniciarCampo(f);
+        iniciarCampo = new IniciarCampo(f);
+        this.campo = iniciarCampo.getCampo();
         GalacticaEventGLE eventoGLE = new GalacticaEventGLE(iniciarCampo.getCampo());
         gLJPanel1.addGLEventListener(eventoGLE);
-        
-        
+
         final FPSAnimator animator = new FPSAnimator(gLJPanel1, 300, true);
         animator.start();
     }//GEN-LAST:event_btArquivoActionPerformed
+
+    private void btProcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProcessoActionPerformed
+        // TODO add your handling code here:
+        int linha = this.campo.length;
+        int coluna = this.campo[0].length;
+        Coordenada position = iniciarCampo.getCoorIni();
+
+        //ordenar a lista de boss mais proximo do ponto inicial (nao funciona)
+        /* Collections.sort(iniciarCampo.getCoorBoss(), new Comparator<Coordenada>(){
+            @Override
+            public int compare(Coordenada p1, Coordenada p2) {
+                Integer linha = iniciarCampo.getCoorIni().getLinha() - p1.getLinha();
+                Integer coluna = iniciarCampo.getCoorIni().getColuna() - p1.getColuna();
+                Integer distancia1 = Math.abs(linha) + Math.abs(coluna);
+                
+                Integer linha2 = iniciarCampo.getCoorIni().getLinha() - p2.getLinha();
+                Integer coluna2 = iniciarCampo.getCoorIni().getColuna() - p2.getColuna();
+                Integer distancia2 = Math.abs(linha2) + Math.abs(coluna2);
+                
+                return distancia1 < distancia2 ? -1 : 1;
+            }
+            
+        });*/
+        for (Coordenada boss : iniciarCampo.getCoorBoss()) {
+
+            position = moverBoss(position, boss);
+
+        }
+
+
+    }//GEN-LAST:event_btProcessoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -194,6 +243,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btArquivo;
+    private javax.swing.JButton btProcesso;
     private javax.swing.JTextField editFile;
     private com.jogamp.opengl.awt.GLJPanel gLJPanel1;
     private javax.swing.JFileChooser jFileChooser1;
@@ -201,4 +251,59 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel painelDesenho;
     private javax.swing.JPanel painelTopo;
     // End of variables declaration//GEN-END:variables
+
+    public Integer getDistancia(Coordenada p1, Coordenada p2) {
+        Integer linha = Math.abs(p1.getLinha() - p2.getLinha());
+        Integer coluna = Math.abs(p1.getColuna() - p2.getColuna());
+
+        return linha + coluna;
+    }
+
+    public Coordenada moverBoss(Coordenada position, Coordenada boss) {
+        Coordenada result = null;
+        
+        if(campo[position.getLinha()][position.getColuna()] != 10)
+            campo[position.getLinha()][position.getColuna()] = 10;
+        try {
+            System.out.println("Esperando");
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Coordenada pSuperior = new Coordenada(position.getLinha() - 1, position.getColuna());
+        Coordenada pInferior = new Coordenada(position.getLinha() + 1, position.getColuna());
+        Coordenada pDireita = new Coordenada(position.getLinha(), position.getColuna() + 1);
+        Coordenada pEsquerda = new Coordenada(position.getLinha(), position.getColuna() - 1);
+        
+        if(Coordenada.isCoordenateEqual(boss, pSuperior)){
+            result = pSuperior;
+        }else if (Coordenada.isCoordenateEqual(boss, pInferior)){
+            result = pInferior;
+        }else if (Coordenada.isCoordenateEqual(boss, pDireita)){
+            result = pDireita;
+        }else if (Coordenada.isCoordenateEqual(boss, pEsquerda)){
+            result = pEsquerda;
+        }
+        
+        if(result == null){
+            Integer somaCustoSuperior = this.getDistancia(pSuperior, boss) + campo[pSuperior.getLinha()][pSuperior.getColuna()];
+            Integer somaCustoInferior = this.getDistancia(pInferior, boss) + campo[pInferior.getLinha()][pInferior.getColuna()];
+            Integer somaCustoDireita = this.getDistancia(pDireita, boss) + campo[pDireita.getLinha()][pDireita.getColuna()];
+            Integer somaCustoEsquerda = this.getDistancia(pEsquerda, boss) + campo[pEsquerda.getLinha()][pEsquerda.getColuna()];
+
+            if (somaCustoSuperior < somaCustoInferior && somaCustoSuperior < somaCustoDireita && somaCustoSuperior < somaCustoEsquerda) {
+                moverBoss(pSuperior, boss);
+            } else if (somaCustoInferior < somaCustoDireita && somaCustoInferior < somaCustoEsquerda) {
+                moverBoss(pInferior, boss);
+            } else if (somaCustoDireita < somaCustoEsquerda) {
+                moverBoss(pDireita, boss);
+            } else {
+                moverBoss(pEsquerda, boss);
+            }
+        }
+        
+        return result;
+        
+    }
+
 }

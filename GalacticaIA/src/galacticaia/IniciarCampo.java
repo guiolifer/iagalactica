@@ -23,11 +23,14 @@ public class IniciarCampo {
     protected int linha = 0;
     protected int coluna = 0;
     private Integer campo[][];
+    private Coordenada coorIni;
+    private Coordenada coorFim;
+    private ArrayList<Coordenada> coorBoss;
     
 
     
     public IniciarCampo(File f) {
-        
+        coorBoss = new ArrayList<Coordenada>();
         
         try {
             // TODO code application logic here
@@ -42,6 +45,11 @@ public class IniciarCampo {
                 splited = lerLinha.split("\\|");
                 for (String string : splited) {
                     if (!string.equals("")) {
+                        if(Integer.parseInt(string)==10){
+                            coorIni = new Coordenada(linha, coluna);
+                        }else if (Integer.parseInt(string)==100) {
+                            coorFim = new Coordenada(linha, coluna);
+                        }
                         campo[linha][coluna++] = Integer.parseInt(string);
                     }
                 }
@@ -54,7 +62,15 @@ public class IniciarCampo {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        coorBoss.add(new Coordenada(22, 17));
+        coorBoss.add(new Coordenada(19, 4));
+        coorBoss.add(new Coordenada(16, 13));
+        coorBoss.add(new Coordenada(16, 24));
+        coorBoss.add(new Coordenada(9, 18));
+        coorBoss.add(new Coordenada(9, 10));
+        coorBoss.add(new Coordenada(4, 9));
+        coorBoss.add(new Coordenada(4, 21));
+        
     }
 
     
@@ -62,7 +78,51 @@ public class IniciarCampo {
     public Integer[][] getCampo() {
         return campo;
     }
-    
-    
 
+    /**
+     * @return the coorIni
+     */
+    public Coordenada getCoorIni() {
+        return coorIni;
+    }
+
+    /**
+     * @param coorIni the coorIni to set
+     */
+    public void setCoorIni(Coordenada coorIni) {
+        this.coorIni = coorIni;
+    }
+
+    /**
+     * @return the coorFim
+     */
+    public Coordenada getCoorFim() {
+        return coorFim;
+    }
+
+    /**
+     * @param coorFim the coorFim to set
+     */
+    public void setCoorFim(Coordenada coorFim) {
+        this.coorFim = coorFim;
+    }
+
+    /**
+     * @return the coorBoss
+     */
+    public ArrayList<Coordenada> getCoorBoss() {
+        return coorBoss;
+    }
+
+    /**
+     * @param coorBoss the coorBoss to set
+     */
+    public void setCoorBoss(ArrayList<Coordenada> coorBoss) {
+        this.coorBoss = coorBoss;
+    }
+    
+    
+    
+    
+    
 }

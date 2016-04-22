@@ -72,15 +72,17 @@ public class GalacticaEventGLE implements GLEventListener {
     }
     
     private void desenhaQuadrado(GL2 gl,float x,float y){
-        float cuboX = -0.98f+(y*0.058f);
-        float cuboY = 0.98f-(x*0.058f);
+        float cuboX = -0.98f+(y*0.06f);
+        float cuboY = 0.98f-(x*0.06f);
         
         gl.glBegin(GL2.GL_QUADS);
         gl.glVertex3f(cuboX, cuboY, 0);//superior esquerdo
-        gl.glVertex3f(cuboX+0.058f, cuboY, 0);//superior direito
-        gl.glVertex3f(cuboX+0.058f, cuboY-0.058f, 0);//
-        gl.glVertex3f(cuboX, cuboY-0.058f, 0);
+        gl.glVertex3f(cuboX+0.048f, cuboY, 0);//superior direito
+        gl.glVertex3f(cuboX+0.048f, cuboY-0.048f, 0);//
+        gl.glVertex3f(cuboX, cuboY-0.048f, 0);
         gl.glEnd(); 
     }
+    
+    
 
 }
