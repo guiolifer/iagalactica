@@ -18,6 +18,7 @@ public class Coordenada {
     private int custoG = 0;
     private int custoH = 9999;
     private Coordenada pai = null;
+    private String nome;
     
     public Coordenada(Integer linha, Integer coluna) {
         this.linha = linha;
@@ -30,6 +31,24 @@ public class Coordenada {
         this.coluna = coluna;
         this.custo = custo;
     }
+    
+    
+    public Coordenada(Integer linha, Integer coluna, Integer custo,String nome) {
+        this.linha = linha;
+        this.coluna = coluna;
+        this.custo = custo;
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
+    
 
     public int getCusto() {
         return custo;

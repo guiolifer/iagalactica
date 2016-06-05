@@ -36,14 +36,14 @@ public class Principal extends javax.swing.JFrame {
         painelDesenho.add(gLJPanel1);
         
         
-        
+        /*
         iniciarCampo = new Campo(new File("C:\\Users\\Guilherme\\Documents\\NetBeansProjects\\iagalactica\\GalacticaIA\\campo2.txt"));
         
         GalacticaEventGLE eventoGLE = new GalacticaEventGLE(iniciarCampo);
         gLJPanel1.addGLEventListener(eventoGLE);
 
         final FPSAnimator animator = new FPSAnimator(gLJPanel1, 300, true);
-        animator.start();
+        animator.start();*/
 
     }
 
@@ -181,41 +181,6 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btArquivoActionPerformed
 
     private void btProcessoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProcessoActionPerformed
-        // TODO add your handling code here:
-//        int linha = this.campo.length;
-//        int coluna = this.campo[0].length;
-//        Coordenada position = iniciarCampo.getCoorIni();
-//
-//        //ordenar a lista de boss mais proximo do ponto inicial (nao funciona)
-//        /* Collections.sort(iniciarCampo.getCoorBoss(), new Comparator<Coordenada>(){
-//            @Override
-//            public int compare(Coordenada p1, Coordenada p2) {
-//                Integer linha = iniciarCampo.getCoorIni().getLinha() - p1.getLinha();
-//                Integer coluna = iniciarCampo.getCoorIni().getColuna() - p1.getColuna();
-//                Integer distancia1 = Math.abs(linha) + Math.abs(coluna);
-//                
-//                Integer linha2 = iniciarCampo.getCoorIni().getLinha() - p2.getLinha();
-//                Integer coluna2 = iniciarCampo.getCoorIni().getColuna() - p2.getColuna();
-//                Integer distancia2 = Math.abs(linha2) + Math.abs(coluna2);
-//                
-//                return distancia1 < distancia2 ? -1 : 1;
-//            }
-//            
-//        });*/
-//        for (Coordenada boss : iniciarCampo.getCoorBoss()) {
-//            listaAberta.add(position);
-//            
-//            
-//            
-//            position = moverBoss(boss);
-//            Coordenada corrente=position.getPai();
-//            while (corrente!=null) {
-//                iniciarCampo.getCaminho()[corrente.getLinha()][corrente.getColuna()] = 1;
-//                corrente =  corrente.getPai();
-//            }
-//
-//        }
-
         AEstrelaRunnable flux = new AEstrelaRunnable(iniciarCampo);
         Thread thread = new Thread(flux);
         thread.start();
@@ -227,30 +192,6 @@ public class Principal extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Principal().setVisible(true);

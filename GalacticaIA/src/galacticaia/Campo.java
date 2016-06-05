@@ -27,11 +27,13 @@ public class Campo {
     private Coordenada coorIni;
     private Coordenada coorFim;
     private ArrayList<Coordenada> coorBoss;
+    private ArrayList<Personagem> lstPersonagens;
     
 
     
     public Campo(File f) {
         coorBoss = new ArrayList<>();
+        lstPersonagens = new ArrayList<>();
         
         try {
             // TODO code application logic here
@@ -63,16 +65,21 @@ public class Campo {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        coorBoss.add(new Coordenada(22, 17));
-        coorBoss.add(new Coordenada(19, 4));
-        coorBoss.add(new Coordenada(16, 13));
-        coorBoss.add(new Coordenada(16, 24));
-        coorBoss.add(new Coordenada(9, 18));
-        coorBoss.add(new Coordenada(9, 10));
-        coorBoss.add(new Coordenada(4, 9));
-        coorBoss.add(new Coordenada(4, 21));
+        coorBoss.add(new Coordenada(22, 17, 50, "Casa Áries"));
+        coorBoss.add(new Coordenada(19, 4 , 60, "Casa Touro"));
+        coorBoss.add(new Coordenada(16, 13, 70, "Casa Gêmios"));
+        coorBoss.add(new Coordenada(16, 24, 80, "Casa Cancer"));
+        coorBoss.add(new Coordenada(9, 18, 90, "Casa Leao"));
+        coorBoss.add(new Coordenada(9, 10, 100, "Casa Virgem"));
+        coorBoss.add(new Coordenada(4, 9, 110, "Casa Libra"));
+        coorBoss.add(new Coordenada(4, 21, 120, "Casa Escorpiao"));
         coorIni = new Coordenada(22, 28);
         coorFim = new Coordenada(4, 28);
+        lstPersonagens.add(new Personagem("Seiya", 1.5));
+        lstPersonagens.add(new Personagem("Shiryu", 1.4));
+        lstPersonagens.add(new Personagem("Hyoga", 1.3));
+        lstPersonagens.add(new Personagem("Shun", 1.2));
+        lstPersonagens.add(new Personagem("Lkki", 1.1));
         
     }
 
@@ -137,9 +144,8 @@ public class Campo {
     public void setCampo(Coordenada[][] campo) {
         this.campo = campo;
     }
-    
-    
-    
-    
-    
+
+    public ArrayList<Personagem> getLstPersonagens() {
+        return lstPersonagens;
+    }
 }
